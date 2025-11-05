@@ -36,18 +36,18 @@ pipeline {
                     test -f ./build/index.html
                     npm test
                 '''
-            }
-        }
-        post {
-            always {
-                publishHTML(target: [
-                    allowMissing: false,
-                    alwaysLinkToLastBuild: false,
-                    keepAll: true,
-                    reportDir: 'coverage/lcov-report',
-                    reportFiles: 'index.html',
-                    reportName: 'Code Coverage Report'
-                ])
+                post {
+                    always {
+                        publishHTML(target: [
+                            allowMissing: false,
+                            alwaysLinkToLastBuild: false,
+                            keepAll: true,
+                            reportDir: 'coverage/lcov-report',
+                            reportFiles: 'index.html',
+                            reportName: 'Code Coverage Report'
+                        ])
+                    }
+                }
             }
         }
         stage('Deploy') {
