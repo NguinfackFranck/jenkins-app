@@ -1,0 +1,15 @@
+FROM amazonlinux:2
+
+# Install required packages for Docker CLI
+RUN yum update -y && \
+    yum install -y jq unzip less tar gzip shadow-utils && \
+    curl -fsSL https://download.docker.com/linux/static/stable/x86_64/docker-26.1.1.tgz -o docker.tgz && \
+    tar xzvf docker.tgz && \
+    mv docker/* /usr/bin/ && \
+    rm -rf docker docker.tgz && \
+    curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" && \
+    unzip awscliv2.zip && ./aws/install && \
+    rm -rf awscliv2.zip aws && \
+    yum clean all
+
+
