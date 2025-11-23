@@ -30,7 +30,7 @@ pipeline {
                 echo "Test stage"
                 sh '''
                     test -f build/index.html
-                    npm test
+                    npm test -- --ci --reporters=jest-junit
                 '''
             }
         }
@@ -45,10 +45,10 @@ pipeline {
                 
                 sh '''
                    npm install -g serve
-                   serve -s build
-                   npx playwright test
+                   nohup serve -s build -l 5000 &
+                   npx playwright test --reporter=junit --output=test-results
                 
-                '''
+                   '''
             }
         }
     }
