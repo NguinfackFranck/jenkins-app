@@ -1,8 +1,8 @@
 import { render, screen } from '@testing-library/react';
 import App from './App';
 
-test('renders learn Jenkins link', () => {
+test('renders Jenkins learning message', () => {
   render(<App />);
-  const linkElement = screen.getByText(/learn Jenkins/i);
+  const linkElement = screen.getByText(/Dhruv is learning jenkins, be patient/i);
   expect(linkElement).toBeInTheDocument();
 });

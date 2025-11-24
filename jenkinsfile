@@ -1,0 +1,45 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Test') {
+            agent {
+                docker {
+                    image 'node:18-alpine'
+                    reuseNode true
+                }
+            }
+            steps {
+                sh '''
+                    npm ci
+                    npm test -- --ci --reporters=default --reporters=jest-junit
+                '''
+            }
+        }
+
+        stage('E2E') {
+            agent {
+                docker {
+                    image 'node:18-alpine'
+                    reuseNode true
+                }
+            }
+            steps {
+                sh '''
+                    npm ci
+                    npx playwright install --with-deps || true
+                    npm install -g serve
+                    nohup serve -s build -l 5000 > serve.log 2>&1 &
+                    sleep 10
+                    npx playwright test --reporter=junit --output=junit-results
+                '''
+            }
+        }
+    }
+
+    post {
+        always {
+            junit 'junit-results/*.xml'
+        }
+    }
+}
