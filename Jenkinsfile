@@ -1,13 +1,14 @@
+// Solution 1: Use a global agent (Recommended for simple pipelines)
 pipeline {
-
+    agent {
+        docker {
+            image 'node:18-alpine'
+            // When defined globally, the agent is reused for all stages
+            // 'reuseNode true' is implicitly part of this global behavior in many setups
+        }
+    }
     stages {
         stage('Build') {
-            agent{
-                docker{
-                    image 'node:18-alpine'
-                    reuseNode true
-                }
-            }
             steps {
                 sh'''
                 ls -a
