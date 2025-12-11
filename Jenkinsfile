@@ -21,7 +21,8 @@ pipeline {
             }
         }
         stage('test'){
-            echo "test message"
+            steps{
+            echo "test message"}
         }
     }
 }
